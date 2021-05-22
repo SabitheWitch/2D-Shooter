@@ -19,21 +19,14 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-
-        //if i hit space key
-        //spawn gameObject
-
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            Instantiate(_laserPreFab);
-        }
+        CreateLasers();
     }
 
     void CalculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
-        
+
         Vector3 direction = new Vector3(horizontalInput, verticalInput, 0);
         transform.Translate(direction * _speed * Time.deltaTime);
 
@@ -51,9 +44,18 @@ public class Player : MonoBehaviour
         if (transform.position.x > 11.24f)
         {
             transform.position = new Vector3(-11.24f, transform.position.y, 0);
-        } else if (transform.position.x < -11.24f)
+        }
+        else if (transform.position.x < -11.24f)
         {
             transform.position = new Vector3(11.24f, transform.position.y, 0);
+        }
+        
+    }
+    void CreateLasers()
+    {
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            Instantiate(_laserPreFab, transform.position, Quaternion.identity);
         }
     }
 }
