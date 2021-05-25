@@ -15,11 +15,14 @@ public class Laser : MonoBehaviour
     
     void Update()
     {
-        // translate laser up
+
+        //offset laser spawn position north
+
+        
+        
         transform.Translate(Vector3.up * _speed * Time.deltaTime);
 
-        // if laser position is greater than 8
-        // destroy laser
+       
 
         if(transform.position.y > 8)
         {
