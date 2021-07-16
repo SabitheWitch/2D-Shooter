@@ -6,6 +6,12 @@ public class Powerup : MonoBehaviour
 {
     [SerializeField]
     private float speed = 3f;
+
+    /* 0 = tripleshot
+     * 1 = speed
+     * 2 = shield */
+    [SerializeField]
+    private int powerupID;
     // Start is called before the first frame update
     void Start()
     {
@@ -14,27 +20,37 @@ public class Powerup : MonoBehaviour
 
     // Update is called once per frame
     void Update()
-    {
-        /*Move down at speed of 3
-         * Destroy when past screen*/
+    {       
         transform.Translate(Vector3.down * speed * Time.deltaTime);
         if (transform.position.y < -5f)
         {
             Destroy(gameObject);
         }
     }
-    /*OnTriggerCollision
-     * ONLY collectible by player (tags are your friend)*/
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        //communicate with player script
+        
         
         if (collision.tag == "Player")
         {
             Player player = collision.transform.GetComponent<Player>();
             if(player != null)
             {
-                player.TripleShotActive();
+                switch (powerupID)
+                {
+                    case 0:
+                        player.TripleShotActive();
+                        break;
+                    case 1:
+                        player.SpeedBoostActive();
+                        break;
+                    case 2:
+                        player.ShieldActive();
+                        break;
+                    default:
+                        break;
+                }
             }
 
             Destroy(this.gameObject);
