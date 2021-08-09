@@ -31,12 +31,24 @@ public class Player : MonoBehaviour
     private int _score;
 
     private UImanager _uiManager;
+
+    [SerializeField]
+    private GameObject _rightEngine;
+    [SerializeField]
+    private GameObject _leftEngine;
+
+    [SerializeField]
+    private AudioClip _laserShot;
+    private AudioSource _audioSource;
+   
     void Start()
     {      
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
 
         _uiManager = GameObject.Find("Canvas").GetComponent<UImanager>();
+
+        _audioSource = GetComponent<AudioSource>();       
 
         if (_spawnManager == null)
         {
@@ -47,6 +59,17 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("UI Manager is NULL!");
         }
+
+        if (_audioSource == null)
+        {
+            Debug.LogError("Audio Source in player is NULL!");
+        } else
+        {
+            _audioSource.clip = _laserShot;
+        }
+
+        _rightEngine.SetActive(false);
+        _leftEngine.SetActive(false);
     }
 
     // Update is called once per frame
@@ -96,6 +119,8 @@ public class Player : MonoBehaviour
         { 
             Instantiate(_laserPreFab, transform.position + new Vector3(0, 1.05f, 0), Quaternion.identity); 
         }
+        _audioSource.Play();
+        
     }
 
     public void Damage()
@@ -106,12 +131,25 @@ public class Player : MonoBehaviour
             _shieldVisual.SetActive(false);
             return;
         }
-        _life -= 1;
+        _life--;
+
+
+        if (_life == 2)
+        {
+            _rightEngine.SetActive(true);
+        } else if(_life == 1)
+        {
+            _leftEngine.SetActive(true);
+        }        
 
         if (_life < 1)
         {
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
+        }
+        if (!(_life < 0))
+        {
+            _uiManager.UpdateLives(_life);
         }
     }
 
@@ -132,7 +170,7 @@ public class Player : MonoBehaviour
     public void SpeedBoostActive()
     {
         _isSpeedBoostActive = true;
-        _speed += 25;
+        _speed += 10;
         StartCoroutine(SpeedBoostPowerDownRoutine());
     }
 
@@ -142,7 +180,7 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(5f);
             _isSpeedBoostActive = false;
-            _speed -= 25;
+            _speed -= 10;
         }
     }
 
