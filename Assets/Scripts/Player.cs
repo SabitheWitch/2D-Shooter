@@ -6,6 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 8.0f;
+    private bool _canThrust;
     
 
     [SerializeField]
