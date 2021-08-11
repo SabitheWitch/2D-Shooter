@@ -6,7 +6,7 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 8.0f;
-    private bool _canThrust;
+    private bool _canThrust = true;
     
 
     [SerializeField]
@@ -82,9 +82,11 @@ public class Player : MonoBehaviour
         {
             FireLaser();
         }
+
+        
     }
 
-    void CalculateMovement()
+    private void CalculateMovement()
     {
         float horizontalInput = Input.GetAxis("Horizontal");
         float verticalInput = Input.GetAxis("Vertical");
@@ -106,8 +108,41 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11.24f, transform.position.y, 0);
         }
-        
+        //if left shift held down AND _canThrust == true -- speed up
+        //thrust last for 5 seconds
+        //cooldown for 5 seconds
+        if(Input.GetKeyDown(KeyCode.LeftShift) && _canThrust == true)
+        {
+            _speed += 5f;
+            StartCoroutine(ThrustPowerDownRoutine());
+        }
+
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            
+            StartCoroutine(ThrustChargeRoutine());
+        }
+
     }
+
+    IEnumerator ThrustPowerDownRoutine()
+    {
+        while (_canThrust == true)
+        {
+            yield return new WaitForSeconds(5f);
+            _speed -= 5f;
+            _canThrust = false;
+        }
+    }
+    IEnumerator ThrustChargeRoutine()
+    {
+        while (_canThrust == false)
+        {
+            yield return new WaitForSeconds(5f);
+            _canThrust = true;
+        }
+    }
+   
     void FireLaser()
     {
         
