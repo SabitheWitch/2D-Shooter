@@ -7,6 +7,9 @@ public class Player : MonoBehaviour
     [SerializeField]
     private float _speed = 8.0f;
     private bool _canThrust = true;
+    [SerializeField]
+    private float _chargingTime = 5f;
+    private float _chargeRate = 1f;
     
 
     [SerializeField]
@@ -25,6 +28,7 @@ public class Player : MonoBehaviour
     bool _isTripleShotActive = false;  
     bool _isSpeedBoostActive = false;
     bool _isShieldActive = false;
+    private int _shieldLife;
 
     [SerializeField]
     private GameObject _shieldVisual;
@@ -77,7 +81,7 @@ public class Player : MonoBehaviour
     void Update()
     {
         CalculateMovement();
-
+        Thrust();
         if (Input.GetKey(KeyCode.Space) && Time.time > _canFire)
         {
             FireLaser();
@@ -108,38 +112,52 @@ public class Player : MonoBehaviour
         {
             transform.position = new Vector3(11.24f, transform.position.y, 0);
         }
-        //if left shift held down AND _canThrust == true -- speed up
-        //thrust last for 5 seconds
-        //cooldown for 5 seconds
-        if(Input.GetKeyDown(KeyCode.LeftShift) && _canThrust == true)
+        
+    }
+    void Thrust()
+    {
+        if (Input.GetKey(KeyCode.LeftShift) && _canThrust == true)
         {
-            _speed += 5f;
-            StartCoroutine(ThrustPowerDownRoutine());
+            _speed = 12f;
+
+            if(_chargingTime == 5)
+            { 
+                StartCoroutine(ThrustOverHeatRoutine());
+            }
+            if(_chargingTime == 0f)
+            {
+                _canThrust = false;
+            }
+            
         }
 
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
-            
-            StartCoroutine(ThrustChargeRoutine());
-        }
+            _speed = 8f;
 
+            if (_chargingTime < 5f)
+            {
+                StartCoroutine(ThrustChargeRoutine());
+            }
+            _canThrust = true;
+        }
     }
 
-    IEnumerator ThrustPowerDownRoutine()
+    IEnumerator ThrustOverHeatRoutine()
     {
-        while (_canThrust == true)
+        while(Input.GetKey(KeyCode.LeftShift) && _chargingTime > 0)
         {
-            yield return new WaitForSeconds(5f);
-            _speed -= 5f;
-            _canThrust = false;
+            _chargingTime--;
+            yield return new WaitForSeconds(1f);
+
         }
     }
     IEnumerator ThrustChargeRoutine()
     {
-        while (_canThrust == false)
+        while (_chargingTime < 5f)
         {
-            yield return new WaitForSeconds(5f);
-            _canThrust = true;
+            _chargingTime++;
+            yield return new WaitForSeconds(1f);            
         }
     }
    
