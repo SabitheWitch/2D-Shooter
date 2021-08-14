@@ -9,7 +9,8 @@ public class Player : MonoBehaviour
     private bool _canThrust = true;
     [SerializeField]
     private float _chargingTime = 5f;
-    private float _chargeRate = 1f;
+    [SerializeField]
+    private GameObject _thruster;
     
 
     [SerializeField]
@@ -114,19 +115,31 @@ public class Player : MonoBehaviour
         }
         
     }
+
+    //if left shift held down and thrust is available
+    //increase speed to 12 and increase size of thruster sprite.
+    //decrease power (chargingtime) every second for five seconds
+    //if power gets to 0 thrust is disabled for 5 seconds
+    //if left shift is released, thruster returns to normal
+    //increase power ever second until power is full
     void Thrust()
     {
         if (Input.GetKey(KeyCode.LeftShift) && _canThrust == true)
         {
             _speed = 12f;
+            _thruster.transform.localScale= new Vector3( 1f, 1f, 1f);
+            _thruster.transform.position = new Vector3(transform.position.x, transform.position.y - 1.75f, transform.position.z);
 
             if(_chargingTime == 5)
-            { 
-                StartCoroutine(ThrustOverHeatRoutine());
+            {
+                StartCoroutine(DecreaseThrusterRoutine());
             }
             if(_chargingTime == 0f)
             {
                 _canThrust = false;
+                _thruster.transform.localScale = new Vector3(.5f, .5f, .5f);
+                _thruster.transform.position = new Vector3(transform.position.x, transform.position.y - 1.25f, transform.position.z);
+                StartCoroutine(ThrustOverHeatRoutine());
             }
             
         }
@@ -134,28 +147,39 @@ public class Player : MonoBehaviour
         if (Input.GetKeyUp(KeyCode.LeftShift))
         {
             _speed = 8f;
+            _thruster.transform.localScale = new Vector3(.5f, .5f, .5f);
+            _thruster.transform.position = new Vector3(transform.position.x, transform.position.y -1.25f, transform.position.z);
 
-            if (_chargingTime < 5f)
+            if (_chargingTime <= 5f && _chargingTime > 0f && Input.GetKey(KeyCode.LeftShift) != true)
             {
                 StartCoroutine(ThrustChargeRoutine());
             }
-            _canThrust = true;
+            
+        }
+    }
+    IEnumerator DecreaseThrusterRoutine()
+    {
+        while (Input.GetKey(KeyCode.LeftShift) && _chargingTime > 0)
+        {
+            _chargingTime--;
+            yield return new WaitForSeconds(1f);
         }
     }
 
     IEnumerator ThrustOverHeatRoutine()
     {
-        while(Input.GetKey(KeyCode.LeftShift) && _chargingTime > 0)
+        while(_canThrust == false)
         {
-            _chargingTime--;
-            yield return new WaitForSeconds(1f);
-
+            yield return new WaitForSeconds(5f);
+            _chargingTime = 5f;
+            _canThrust = true;
         }
     }
     IEnumerator ThrustChargeRoutine()
     {
         while (_chargingTime < 5f)
         {
+            Debug.Log("Charging");
             _chargingTime++;
             yield return new WaitForSeconds(1f);            
         }
