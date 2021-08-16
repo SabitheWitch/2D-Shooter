@@ -29,8 +29,10 @@ public class Player : MonoBehaviour
     bool _isTripleShotActive = false;  
     bool _isSpeedBoostActive = false;
     bool _isShieldActive = false;
+    
+    [SerializeField]
     private int _shieldLife;
-
+    SpriteRenderer _shieldColor;
     [SerializeField]
     private GameObject _shieldVisual;
 
@@ -54,7 +56,9 @@ public class Player : MonoBehaviour
 
         _uiManager = GameObject.Find("Canvas").GetComponent<UImanager>();
 
-        _audioSource = GetComponent<AudioSource>();       
+        _audioSource = GetComponent<AudioSource>();
+
+        _shieldColor = _shieldVisual.GetComponent<SpriteRenderer>();
 
         if (_spawnManager == null)
         {
@@ -116,12 +120,6 @@ public class Player : MonoBehaviour
         
     }
 
-    //if left shift held down and thrust is available
-    //increase speed to 12 and increase size of thruster sprite.
-    //decrease power (chargingtime) every second for five seconds
-    //if power gets to 0 thrust is disabled for 5 seconds
-    //if left shift is released, thruster returns to normal
-    //increase power ever second until power is full
     void Thrust()
     {
         if (Input.GetKey(KeyCode.LeftShift) && _canThrust == true)
@@ -205,9 +203,22 @@ public class Player : MonoBehaviour
     {
        if(_isShieldActive == true)
         {
+            _shieldLife--;
+            if(_shieldLife == 0) 
+            {
             _isShieldActive = false;
             _shieldVisual.SetActive(false);
             return;
+            } else if (_shieldLife == 1)
+            {
+                _shieldColor.color = Color.red;
+                return;
+            }
+            else if (_shieldLife == 2)
+            {
+                _shieldColor.color = Color.green;
+                return;
+            }
         }
         _life--;
 
@@ -264,8 +275,24 @@ public class Player : MonoBehaviour
 
     public void ShieldActive()
     {
-        _isShieldActive = true;
-        _shieldVisual.SetActive(true);
+        if (_shieldLife < 3)
+        {
+            _shieldLife++;
+            _isShieldActive = true;
+            _shieldVisual.SetActive(true);           
+        }
+        if (_shieldLife == 1)
+        {
+            _shieldColor.color = Color.red;
+        }
+        else if (_shieldLife == 2)
+        {
+            _shieldColor.color = Color.green;
+        }
+        else if (_shieldLife == 3)
+        {
+            _shieldColor.color = Color.cyan;
+        }
     }
 
     public void AddScore()

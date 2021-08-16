@@ -109,6 +109,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7002390142268293451, guid: ec62cb3ee867df643b845471c4beee2e,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8316305383610185616, guid: ec62cb3ee867df643b845471c4beee2e,
         type: 3}
       propertyPath: _isEnemyLaser

@@ -1472,6 +1472,7 @@ MonoBehaviour:
     type: 3}
   _fireRate: 0.2
   _life: 3
+  _shieldLife: 0
   _shieldVisual: {fileID: 399145026}
   _rightEngine: {fileID: 120907430}
   _leftEngine: {fileID: 1110276830}
