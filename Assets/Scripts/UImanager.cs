@@ -25,6 +25,8 @@ public class UImanager : MonoBehaviour
 
     private GameManager _gameManager;
 
+    private bool _hasAmmo;
+
     void Start()
     {
         _scoreText.text = "Score: " + 0;
@@ -43,17 +45,18 @@ public class UImanager : MonoBehaviour
     {
         if(ammoCount > 0)
         {
+            _hasAmmo = true;
             _ammoText.text = "Ammo: " + ammoCount.ToString();
-        }
-        if(ammoCount == 0)
+        } else if (ammoCount == 0)
         {
+            _hasAmmo = false;
             StartCoroutine(NoAmmoRoutine());
-        }
-    }
+        }       
+    }   
 
     IEnumerator NoAmmoRoutine()
     {
-        while (true)
+        while (_hasAmmo == false)
         {
             _ammoText.text = "Ammo: " + 0;
             yield return new WaitForSeconds(.5f);

@@ -17,6 +17,8 @@ public class SpawnManager : MonoBehaviour
     
 
     private bool _stopSpawning = false;
+
+    private bool _isAmmoEmpty;
     void Start()
     {
         
@@ -60,9 +62,37 @@ public class SpawnManager : MonoBehaviour
             yield return new WaitForSeconds(Random.Range(3f, 8f));
         }
     }
+
+    public void EnemyDrop(Vector3 enemyPosition)
+    {
+        int randomNum = Random.Range(0, 5);
+        if (randomNum == 3)
+        {
+            Instantiate(powerUps[randomNum], enemyPosition, Quaternion.identity);
+        }
+    }
+
+     public void AmmoDrop()
+    {
+        _isAmmoEmpty = true;
+        StartCoroutine(AmmoDropRoutine());
+    }
+    IEnumerator AmmoDropRoutine()
+    {
+        while (_isAmmoEmpty == true)
+        {
+            Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 7, 0);
+            Instantiate(powerUps[3], posToSpawn, Quaternion.identity);
+            yield return new WaitForSeconds(10f);
+        }
+    }
     public void OnPlayerDeath()
     {
         _stopSpawning = true;
     }
 
+    public void HasAmmo()
+    {
+        _isAmmoEmpty = false;
+    }
 }

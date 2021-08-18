@@ -15,6 +15,8 @@ public class Powerup : MonoBehaviour
     [SerializeField]
     private AudioClip _powerupSound;
 
+    
+
     // Update is called once per frame
     void Update()
     {       
@@ -48,6 +50,9 @@ public class Powerup : MonoBehaviour
                     case 2:
                         player.ShieldActive();
                         break;
+                    case 3:
+                        player.AddAmmo();                        
+                        break;
                     default:
                         break;
                 }
@@ -56,4 +61,5 @@ public class Powerup : MonoBehaviour
             Destroy(this.gameObject);
         }
     }
+    
 }

@@ -19,6 +19,8 @@ public class Enemy : MonoBehaviour
 
     private AudioSource _explosionSound;
 
+    SpawnManager _spawnManager;
+
     void Start()
     {
         _player = GameObject.Find("Player").GetComponent<Player>();
@@ -34,6 +36,7 @@ public class Enemy : MonoBehaviour
         }
 
         _explosionSound = GetComponent<AudioSource>();
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
 
     // Update is called once per frame
@@ -68,11 +71,8 @@ public class Enemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D other)
     {
-        
-
         if (other.tag == "Player")
-        {
-           
+        {           
             if(_player != null)
             {
                 _player.Damage();
@@ -95,6 +95,8 @@ public class Enemy : MonoBehaviour
             _speed = 0;
             _explosionSound.Play();
             Destroy(GetComponent<Collider2D>());
+            Vector3 enemyPosition = gameObject.transform.position;
+            _spawnManager.EnemyDrop(enemyPosition);
             Destroy(this.gameObject, 2.5f);
         }
     }

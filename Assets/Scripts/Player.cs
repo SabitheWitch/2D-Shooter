@@ -20,8 +20,9 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.2f;
     private float _canFire = -1f;    
     private int _ammoCount = 15;
+    private bool _isAmmoEmpty;
 
-    
+
     private int _life = 3;
     private SpawnManager _spawnManager;
    
@@ -94,6 +95,7 @@ public class Player : MonoBehaviour
                 FireLaser();
                 _uiManager.UpdateAmmo(_ammoCount);
             }
+            NoAmmo();
         }
 
         
@@ -180,8 +182,7 @@ public class Player : MonoBehaviour
     IEnumerator ThrustChargeRoutine()
     {
         while (_chargingTime < 5f)
-        {
-            Debug.Log("Charging");
+        {            
             _chargingTime++;
             yield return new WaitForSeconds(1f);            
         }
@@ -296,6 +297,25 @@ public class Player : MonoBehaviour
         else if (_shieldLife == 3)
         {
             _shieldColor.color = Color.cyan;
+        }
+    }
+
+    public void AddAmmo()
+    {
+        if(_ammoCount < 15)
+        {
+            _ammoCount = 15;
+            _uiManager.UpdateAmmo(_ammoCount);
+            _spawnManager.HasAmmo();
+        }
+    }
+    public void NoAmmo()
+    {
+        if (_ammoCount == 0)
+        {
+            Debug.Log("Ammo is empty!");
+            _uiManager.UpdateAmmo(_ammoCount);
+            _spawnManager.AmmoDrop();
         }
     }
 

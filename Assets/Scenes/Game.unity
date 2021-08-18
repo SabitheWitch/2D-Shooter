@@ -1349,6 +1349,8 @@ MonoBehaviour:
   - {fileID: 2302175530936056234, guid: 0e1cb1a1eef55d04f83996a610f64a5a, type: 3}
   - {fileID: 5617410285629285805, guid: 92656bb489fb3424a9487100f3f015de, type: 3}
   - {fileID: 3157402659237877239, guid: a5b7c2baca109f1409f454482a57b632, type: 3}
+  - {fileID: 3852717014669675732, guid: 80f2da97165bc8f4ab363dfc299839db, type: 3}
+  - {fileID: 2894342250501412862, guid: 6702f49c11f2c584caa5ffc8de497a2d, type: 3}
 --- !u!4 &1112251958
 Transform:
   m_ObjectHideFlags: 0
@@ -1544,16 +1546,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 8
-  _chargingTime: 5
   _thruster: {fileID: 958060740}
   _laserPreFab: {fileID: 8482391595913573330, guid: ec62cb3ee867df643b845471c4beee2e,
     type: 3}
   _tripleShotPreFab: {fileID: 4037799787548740924, guid: e0ee371470e7440499eb279fdb452a24,
     type: 3}
   _fireRate: 0.2
-  _ammoCount: 15
-  _life: 3
-  _shieldLife: 0
   _shieldVisual: {fileID: 399145026}
   _rightEngine: {fileID: 120907430}
   _leftEngine: {fileID: 1110276830}
