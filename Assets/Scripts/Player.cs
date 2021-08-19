@@ -6,7 +6,8 @@ public class Player : MonoBehaviour
 {
     [SerializeField]
     private float _speed = 8.0f;
-    private bool _canThrust = true;    
+    private bool _canThrust = true;
+    [SerializeField]
     private float _chargingTime = 5f;
     [SerializeField]
     private GameObject _thruster;
@@ -20,7 +21,7 @@ public class Player : MonoBehaviour
     private float _fireRate = 0.2f;
     private float _canFire = -1f;    
     private int _ammoCount = 15;
-    private bool _isAmmoEmpty;
+    private bool _isAmmoSpawning;
 
 
     private int _life = 3;
@@ -95,10 +96,17 @@ public class Player : MonoBehaviour
                 FireLaser();
                 _uiManager.UpdateAmmo(_ammoCount);
             }
-            NoAmmo();
-        }
-
-        
+            if (_isAmmoSpawning == false) 
+            {                 
+                if (_ammoCount == 0)
+                {
+                    Debug.Log("Ammo is empty!");
+                    _uiManager.UpdateAmmo(_ammoCount);
+                    _spawnManager.AmmoDrop();
+                    _isAmmoSpawning = true;
+                }
+            }
+        }        
     }
 
     private void CalculateMovement()
@@ -161,32 +169,7 @@ public class Player : MonoBehaviour
             
         }
     }
-    IEnumerator DecreaseThrusterRoutine()
-    {
-        while (Input.GetKey(KeyCode.LeftShift) && _chargingTime > 0)
-        {
-            _chargingTime--;
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
-    IEnumerator ThrustOverHeatRoutine()
-    {
-        while(_canThrust == false)
-        {
-            yield return new WaitForSeconds(5f);
-            _chargingTime = 5f;
-            _canThrust = true;
-        }
-    }
-    IEnumerator ThrustChargeRoutine()
-    {
-        while (_chargingTime < 5f)
-        {            
-            _chargingTime++;
-            yield return new WaitForSeconds(1f);            
-        }
-    }
+   
    
     void FireLaser()
     {
@@ -300,25 +283,57 @@ public class Player : MonoBehaviour
         }
     }
 
+    IEnumerator DecreaseThrusterRoutine()
+    {
+        while (Input.GetKey(KeyCode.LeftShift) && _chargingTime > 0)
+        {
+            _chargingTime--;
+            _uiManager.UpdateSlider(_chargingTime);
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
+    IEnumerator ThrustOverHeatRoutine()
+    {
+        while (_canThrust == false)
+        {
+            yield return new WaitForSeconds(5f);
+            _chargingTime = 5f;
+            _canThrust = true;
+            _uiManager.UpdateSlider(_chargingTime);
+        }
+    }
+    IEnumerator ThrustChargeRoutine()
+    {
+        while (_chargingTime < 5f)
+        {
+            _chargingTime++;
+            _uiManager.UpdateSlider(_chargingTime);
+            yield return new WaitForSeconds(1f);
+        }
+    }
+
     public void AddAmmo()
     {
-        if(_ammoCount < 15)
+        if(_ammoCount <= 15)
         {
             _ammoCount = 15;
+            _isAmmoSpawning = false;
             _uiManager.UpdateAmmo(_ammoCount);
             _spawnManager.HasAmmo();
         }
     }
-    public void NoAmmo()
-    {
-        if (_ammoCount == 0)
-        {
-            Debug.Log("Ammo is empty!");
-            _uiManager.UpdateAmmo(_ammoCount);
-            _spawnManager.AmmoDrop();
-        }
-    }
 
+    public void AddLife()
+    {
+        _life++;
+        if(_life >= 3)
+        {
+            _life = 3;
+        }
+        _uiManager.UpdateLives(_life);
+    }
+    
     public void AddScore()
     {
         _score += 10;

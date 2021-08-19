@@ -66,7 +66,7 @@ public class SpawnManager : MonoBehaviour
     public void EnemyDrop(Vector3 enemyPosition)
     {
         int randomNum = Random.Range(0, 5);
-        if (randomNum == 3)
+        if (randomNum == 3 || randomNum == 4)
         {
             Instantiate(powerUps[randomNum], enemyPosition, Quaternion.identity);
         }
@@ -93,6 +93,7 @@ public class SpawnManager : MonoBehaviour
 
     public void HasAmmo()
     {
+        Debug.Log("Ammo collected");
         _isAmmoEmpty = false;
     }
 }

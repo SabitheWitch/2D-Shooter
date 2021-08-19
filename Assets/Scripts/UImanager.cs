@@ -23,6 +23,9 @@ public class UImanager : MonoBehaviour
     [SerializeField]
     private Text _restartText;
 
+    [SerializeField]
+    private Slider _slider;    
+
     private GameManager _gameManager;
 
     private bool _hasAmmo;
@@ -33,6 +36,7 @@ public class UImanager : MonoBehaviour
         _ammoText.text = "Ammo: " + 15;
         _gameOver.gameObject.SetActive(false);
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
+        _slider.value = 5f;
     }
 
     // Update is called once per frame
@@ -76,7 +80,10 @@ public class UImanager : MonoBehaviour
         }
     }
     
-        
+    public void UpdateSlider(float fuel)
+    {
+        _slider.value = fuel;
+    }    
 
     void GameOverSequence()
     {

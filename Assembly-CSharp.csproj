@@ -644,6 +644,9 @@
     <Reference Include="UnityEditor.UI">
       <HintPath>C:/Users/Sabrina/repos/Unity Projects/2D Shooter/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
+    <Reference Include="Unity.2D.Sprite.Editor">
+      <HintPath>C:/Users/Sabrina/repos/Unity Projects/2D Shooter/Library/ScriptAssemblies/Unity.2D.Sprite.Editor.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup></ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
