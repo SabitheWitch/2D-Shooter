@@ -36,7 +36,7 @@ public class UImanager : MonoBehaviour
         _ammoText.text = "Ammo: " + 15;
         _gameOver.gameObject.SetActive(false);
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
-        _slider.value = 5f;
+        _slider.value = 100f;
     }
 
     // Update is called once per frame

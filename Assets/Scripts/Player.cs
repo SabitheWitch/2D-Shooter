@@ -8,7 +8,7 @@ public class Player : MonoBehaviour
     private float _speed = 8.0f;
     private bool _canThrust = true;
     [SerializeField]
-    private float _chargingTime = 5f;
+    private float _chargingTime = 100f;
     [SerializeField]
     private GameObject _thruster;
     
@@ -88,6 +88,10 @@ public class Player : MonoBehaviour
     {
         CalculateMovement();
         Thrust();
+        if (_chargingTime > 100f)
+        {
+            _chargingTime = 100f;
+        }
         if (Input.GetKey(KeyCode.Space) && Time.time > _canFire)
         {
             if (_ammoCount > 0)
@@ -137,17 +141,20 @@ public class Player : MonoBehaviour
     void Thrust()
     {
         if (Input.GetKey(KeyCode.LeftShift) && _canThrust == true)
-        {
+        {            
             _speed = 12f;
             _thruster.transform.localScale= new Vector3( 1f, 1f, 1f);
             _thruster.transform.position = new Vector3(transform.position.x, transform.position.y - 1.75f, transform.position.z);
 
-            if(_chargingTime == 5)
+            if(_chargingTime > 0f)
             {
-                StartCoroutine(DecreaseThrusterRoutine());
+                //StartCoroutine(DecreaseThrusterRoutine());
+                _chargingTime -= 20f * Time.deltaTime;
+                _uiManager.UpdateSlider(_chargingTime);
             }
-            if(_chargingTime == 0f)
+            else
             {
+                _chargingTime = 0f;
                 _canThrust = false;
                 _thruster.transform.localScale = new Vector3(.5f, .5f, .5f);
                 _thruster.transform.position = new Vector3(transform.position.x, transform.position.y - 1.25f, transform.position.z);
@@ -162,15 +169,47 @@ public class Player : MonoBehaviour
             _thruster.transform.localScale = new Vector3(.5f, .5f, .5f);
             _thruster.transform.position = new Vector3(transform.position.x, transform.position.y -1.25f, transform.position.z);
 
-            if (_chargingTime <= 5f && _chargingTime > 0f && Input.GetKey(KeyCode.LeftShift) != true)
-            {
+            if (_chargingTime < 100f && _chargingTime > 0f)
+            {                
                 StartCoroutine(ThrustChargeRoutine());
             }
             
         }
     }
-   
-   
+    /*IEnumerator DecreaseThrusterRoutine()
+    {
+        while (Input.GetKey(KeyCode.LeftShift) && _chargingTime > 0)
+        {
+            _chargingTime -= 5f;
+            _uiManager.UpdateSlider(_chargingTime);
+            yield return new WaitForSeconds(.2f);
+        }
+    }*/
+
+    IEnumerator ThrustOverHeatRoutine()
+    {
+        while (_canThrust == false)
+        {
+            yield return new WaitForSeconds(1f);
+            _chargingTime += 20f;
+            _uiManager.UpdateSlider(_chargingTime);
+            if (_chargingTime == 100f) 
+            { 
+                _canThrust = true; 
+            }
+        }
+    }
+    IEnumerator ThrustChargeRoutine()
+    {
+        while (_chargingTime < 100f && Input.GetKey(KeyCode.LeftShift) == false)
+        {
+            _chargingTime += 1f;
+            _uiManager.UpdateSlider(_chargingTime);
+            yield return new WaitForSeconds(.1f);
+        }
+    }
+
+
     void FireLaser()
     {
         
@@ -283,35 +322,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    IEnumerator DecreaseThrusterRoutine()
-    {
-        while (Input.GetKey(KeyCode.LeftShift) && _chargingTime > 0)
-        {
-            _chargingTime--;
-            _uiManager.UpdateSlider(_chargingTime);
-            yield return new WaitForSeconds(1f);
-        }
-    }
-
-    IEnumerator ThrustOverHeatRoutine()
-    {
-        while (_canThrust == false)
-        {
-            yield return new WaitForSeconds(5f);
-            _chargingTime = 5f;
-            _canThrust = true;
-            _uiManager.UpdateSlider(_chargingTime);
-        }
-    }
-    IEnumerator ThrustChargeRoutine()
-    {
-        while (_chargingTime < 5f)
-        {
-            _chargingTime++;
-            _uiManager.UpdateSlider(_chargingTime);
-            yield return new WaitForSeconds(1f);
-        }
-    }
+   
 
     public void AddAmmo()
     {
