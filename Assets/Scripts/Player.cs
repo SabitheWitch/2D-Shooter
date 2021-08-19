@@ -35,10 +35,11 @@ public class Player : MonoBehaviour
     private int _shieldLife;
     SpriteRenderer _shieldColor;
     [SerializeField]
-    private GameObject _shieldVisual;
-
+    private GameObject _shieldVisual;    
     private int _score;
 
+    private Animator _cameraShake;
+    private bool _isDamaged;
     private UImanager _uiManager;
 
     [SerializeField]
@@ -51,7 +52,8 @@ public class Player : MonoBehaviour
     private AudioSource _audioSource;
    
     void Start()
-    {      
+    {
+        _isDamaged = false;
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
 
@@ -60,6 +62,7 @@ public class Player : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         _shieldColor = _shieldVisual.GetComponent<SpriteRenderer>();
+        _cameraShake = GameObject.Find("Main Camera").GetComponent<Animator>();
 
         if (_spawnManager == null)
         {
@@ -228,7 +231,9 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
-       if(_isShieldActive == true)
+        //_isDamaged = true;
+        _cameraShake.SetTrigger("isDamaged");
+        if (_isShieldActive == true)
         {
             _shieldLife--;
             if(_shieldLife == 0) 
@@ -246,9 +251,10 @@ public class Player : MonoBehaviour
                 _shieldColor.color = Color.green;
                 return;
             }
-        }
+        }        
+        
+        
         _life--;
-
 
         if (_life == 2)
         {
@@ -267,7 +273,18 @@ public class Player : MonoBehaviour
         {
             _uiManager.UpdateLives(_life);
         }
-    }
+    }   
+
+    /*IEnumerator CameraShake()
+    {
+        while(_isDamaged == true)
+        {
+            
+            yield return new WaitForSeconds(.1f);
+            _cameraShake.SetTrigger("isDamaged");
+            _isDamaged = false;
+        }
+    }*/
 
     public void TripleShotActive()
     {

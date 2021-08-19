@@ -1754,6 +1754,7 @@ MonoBehaviour:
     type: 3}
   _fireRate: 0.2
   _shieldVisual: {fileID: 399145026}
+  _cameraShake: {fileID: 0}
   _rightEngine: {fileID: 120907430}
   _leftEngine: {fileID: 1110276830}
   _laserShot: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
@@ -2111,6 +2112,7 @@ GameObject:
   - component: {fileID: 1821028302}
   - component: {fileID: 1821028301}
   - component: {fileID: 1821028304}
+  - component: {fileID: 1821028305}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -2243,6 +2245,25 @@ MonoBehaviour:
   m_BeforeTransparentBundles: []
   m_BeforeStackBundles: []
   m_AfterStackBundles: []
+--- !u!95 &1821028305
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1821028300}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 0913ab64e5bb5214dbccb7e0e2c4e623, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1966070650
 GameObject:
   m_ObjectHideFlags: 0

@@ -6,6 +6,8 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour
 {
     bool _isGameOver;
+
+   
     void Update()
     {
         if(Input.GetKeyDown(KeyCode.R) && _isGameOver == true)
@@ -23,4 +25,6 @@ public class GameManager : MonoBehaviour
     {
         _isGameOver = true;
     }
+
+    
 }
