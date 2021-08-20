@@ -56,6 +56,9 @@ public class Powerup : MonoBehaviour
                     case 4:
                         player.AddLife();
                         break;
+                    case 5:
+                        player.MultiShotActive();
+                        break;
                     default:
                         break;
                 }

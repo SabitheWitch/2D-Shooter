@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 12.5
+  _isEnemyLaser: 0
 --- !u!1001 &1248262071314272931
 PrefabInstance:
   m_ObjectHideFlags: 0

@@ -1477,6 +1477,7 @@ MonoBehaviour:
   - {fileID: 3157402659237877239, guid: a5b7c2baca109f1409f454482a57b632, type: 3}
   - {fileID: 3852717014669675732, guid: 80f2da97165bc8f4ab363dfc299839db, type: 3}
   - {fileID: 2894342250501412862, guid: 6702f49c11f2c584caa5ffc8de497a2d, type: 3}
+  - {fileID: 8949457514521498250, guid: eaa9fb50882897049a1797a53bc3f81d, type: 3}
 --- !u!4 &1112251958
 Transform:
   m_ObjectHideFlags: 0
@@ -1752,9 +1753,10 @@ MonoBehaviour:
     type: 3}
   _tripleShotPreFab: {fileID: 4037799787548740924, guid: e0ee371470e7440499eb279fdb452a24,
     type: 3}
+  _multiShotPreFab: {fileID: 5685316309756306626, guid: 6ba30a6efd392804f8ad82c3d5ee1da1,
+    type: 3}
   _fireRate: 0.2
   _shieldVisual: {fileID: 399145026}
-  _cameraShake: {fileID: 0}
   _rightEngine: {fileID: 120907430}
   _leftEngine: {fileID: 1110276830}
   _laserShot: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}

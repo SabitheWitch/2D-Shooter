@@ -18,6 +18,8 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _tripleShotPreFab;
     [SerializeField]
+    private GameObject _multiShotPreFab;
+    [SerializeField]
     private float _fireRate = 0.2f;
     private float _canFire = -1f;    
     private int _ammoCount = 15;
@@ -27,7 +29,8 @@ public class Player : MonoBehaviour
     private int _life = 3;
     private SpawnManager _spawnManager;
    
-    bool _isTripleShotActive = false;  
+    bool _isTripleShotActive = false;
+    bool _isMultiShotActive = false;
     bool _isSpeedBoostActive = false;
     bool _isShieldActive = false;
     
@@ -220,6 +223,9 @@ public class Player : MonoBehaviour
         if (_isTripleShotActive == true)
         {
             Instantiate(_tripleShotPreFab, transform.position, Quaternion.identity);
+        }else if( _isMultiShotActive == true)
+        {
+            Instantiate(_multiShotPreFab, transform.position, Quaternion.identity);
         }
         else
         { 
@@ -298,6 +304,21 @@ public class Player : MonoBehaviour
         {
             yield return new WaitForSeconds(5f);
             _isTripleShotActive = false;
+        }
+    }
+
+    public void MultiShotActive()
+    {
+        _isMultiShotActive = true;
+        StartCoroutine(MultiShotPowerDownRoutine());
+    }
+
+    IEnumerator MultiShotPowerDownRoutine()
+    {
+        while(_isMultiShotActive == true)
+        {
+            yield return new WaitForSeconds(5f);
+            _isMultiShotActive = false;
         }
     }
     public void SpeedBoostActive()
