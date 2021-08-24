@@ -21,8 +21,12 @@ public class Enemy : MonoBehaviour
 
     SpawnManager _spawnManager;
 
+    private int _movementType;
+
     void Start()
     {
+        _movementType = Random.Range(0, 2);
+
         _player = GameObject.Find("Player").GetComponent<Player>();
         if(_player == null)
         {
@@ -53,15 +57,27 @@ public class Enemy : MonoBehaviour
 
             for (int i = 0; i < lasers.Length; i++)
             {
-                lasers[i].AssignEnemyLaser();
-                
+                lasers[i].AssignEnemyLaser();                
             }
         }
     }
 
     private void CalculateMovement()
     {
-        transform.Translate(Vector3.down * _speed * Time.deltaTime);
+        
+        switch (_movementType)
+        {
+            case 0:
+                transform.Translate(new Vector3(Mathf.Cos(Time.time * 3),-1,0) * _speed * Time.deltaTime);
+                break;
+            case 1:
+                transform.Translate(new Vector3(Mathf.Cos(Time.time), Mathf.Sin(Time.time), 0) * _speed * Time.deltaTime);
+                break;
+            default:
+                transform.Translate(Vector3.down * _speed * Time.deltaTime);
+                break;
+        }
+        
 
         if (transform.position.y < -4)
         {

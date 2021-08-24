@@ -41,8 +41,7 @@ public class Player : MonoBehaviour
     private GameObject _shieldVisual;    
     private int _score;
 
-    private Animator _cameraShake;
-    private bool _isDamaged;
+    private Animator _cameraShake;    
     private UImanager _uiManager;
 
     [SerializeField]
@@ -55,8 +54,7 @@ public class Player : MonoBehaviour
     private AudioSource _audioSource;
    
     void Start()
-    {
-        _isDamaged = false;
+    {        
         transform.position = new Vector3(0, 0, 0);
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
 
@@ -65,6 +63,7 @@ public class Player : MonoBehaviour
         _audioSource = GetComponent<AudioSource>();
 
         _shieldColor = _shieldVisual.GetComponent<SpriteRenderer>();
+
         _cameraShake = GameObject.Find("Main Camera").GetComponent<Animator>();
 
         if (_spawnManager == null)
@@ -153,8 +152,7 @@ public class Player : MonoBehaviour
             _thruster.transform.position = new Vector3(transform.position.x, transform.position.y - 1.75f, transform.position.z);
 
             if(_chargingTime > 0f)
-            {
-                //StartCoroutine(DecreaseThrusterRoutine());
+            {                
                 _chargingTime -= 20f * Time.deltaTime;
                 _uiManager.UpdateSlider(_chargingTime);
             }
@@ -182,16 +180,6 @@ public class Player : MonoBehaviour
             
         }
     }
-    /*IEnumerator DecreaseThrusterRoutine()
-    {
-        while (Input.GetKey(KeyCode.LeftShift) && _chargingTime > 0)
-        {
-            _chargingTime -= 5f;
-            _uiManager.UpdateSlider(_chargingTime);
-            yield return new WaitForSeconds(.2f);
-        }
-    }*/
-
     IEnumerator ThrustOverHeatRoutine()
     {
         while (_canThrust == false)
@@ -236,8 +224,7 @@ public class Player : MonoBehaviour
     }
 
     public void Damage()
-    {
-        //_isDamaged = true;
+    {        
         _cameraShake.SetTrigger("isDamaged");
         if (_isShieldActive == true)
         {
@@ -279,18 +266,7 @@ public class Player : MonoBehaviour
         {
             _uiManager.UpdateLives(_life);
         }
-    }   
-
-    /*IEnumerator CameraShake()
-    {
-        while(_isDamaged == true)
-        {
-            
-            yield return new WaitForSeconds(.1f);
-            _cameraShake.SetTrigger("isDamaged");
-            _isDamaged = false;
-        }
-    }*/
+    }       
 
     public void TripleShotActive()
     {
