@@ -13,7 +13,7 @@ public class Asteroid : MonoBehaviour
     private UImanager _uiManager;
     void Start()
     {
-        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        
         _uiManager = GameObject.Find("Canvas").GetComponent<UImanager>();
     }
 
@@ -35,8 +35,7 @@ public class Asteroid : MonoBehaviour
             Instantiate(_explosion, transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
             int waveNumber = 1;
-            _uiManager.DisplayWaveNumber(waveNumber);
-            _spawnManager.StartSpawning();
+            _uiManager.DisplayWaveNumber(waveNumber);            
             Destroy(this.gameObject);
             
         }

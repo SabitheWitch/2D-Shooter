@@ -6,49 +6,74 @@ public class SpawnManager : MonoBehaviour
 {
     // Start is called before the first frame update
     [SerializeField]
-    private GameObject _enemyPrefab;
+    private GameObject[] enemyPrefabs;
 
     [SerializeField]
     private GameObject _enemyContainer;
 
     [SerializeField]
-    private GameObject[] powerUps;
-
-    
+    private GameObject[] powerUps;    
 
     private bool _stopSpawning = false;
 
     private bool _isAmmoEmpty;
+
+    private int _waveNumber;
+
+    private int _enemiesDead;
+    private int _maxEnemies;
+    private int _enemiesLeft;
+
+    private UImanager _uiManager;
     void Start()
     {
-        
+        _uiManager = GameObject.Find("Canvas").GetComponent<UImanager>();
     }
 
-    public void StartSpawning()
+    public void StartSpawning(int waveNumber)
     {
+        _stopSpawning = false;
+        _waveNumber = waveNumber;
+        _enemiesLeft = _waveNumber + 10;
+        _maxEnemies = _waveNumber + 10;
         StartCoroutine(SpawnEnemyRoutine());
-        StartCoroutine(SpawnPowerUpRoutine());
+        StartCoroutine(SpawnPowerUpRoutine());               
     }
-
     // Update is called once per frame
     void Update()
     {
         
     }
     
-
     IEnumerator SpawnEnemyRoutine()
     {
         yield return new WaitForSeconds(3.5f);
-        while (_stopSpawning == false)
+        
+        while (_stopSpawning == false && _enemiesLeft > 0)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 7, 0);
-            GameObject newEnemy = Instantiate(_enemyPrefab, posToSpawn, Quaternion.identity);
+            
+            GameObject newEnemy = Instantiate(enemyPrefabs[0], posToSpawn, Quaternion.identity);
             newEnemy.transform.parent = _enemyContainer.transform;
+                    
+            _enemiesLeft--;
+            if (_enemiesLeft == 0)
+            {
+                _stopSpawning = true;
+            }
             yield return new WaitForSeconds(5f);
+        }                
+    }
+
+    public void EnemyDeath()
+    {
+        _enemiesDead++;
+        if (_enemiesLeft == 0 && _enemiesDead == _maxEnemies)
+        {
+            _waveNumber++;
+            Debug.Log("Wave 2 should activate now!");
+            _uiManager.DisplayWaveNumber(_waveNumber);
         }
-        
-        
     }
 
     IEnumerator SpawnPowerUpRoutine()

@@ -96,6 +96,7 @@ public class Enemy : MonoBehaviour
             _enemyDestroyed.SetTrigger("OnEnemyDeath");
             _speed = 0;
             _explosionSound.Play();
+            _spawnManager.EnemyDeath();
             Destroy(GetComponent<Collider2D>());
             Destroy(gameObject, 2.5f);
         }else if (other.tag == "Laser")
@@ -110,6 +111,7 @@ public class Enemy : MonoBehaviour
             _enemyDestroyed.SetTrigger("OnEnemyDeath");
             _speed = 0;
             _explosionSound.Play();
+            _spawnManager.EnemyDeath();
             Destroy(GetComponent<Collider2D>());
             Vector3 enemyPosition = gameObject.transform.position;
             _spawnManager.EnemyDrop(enemyPosition);

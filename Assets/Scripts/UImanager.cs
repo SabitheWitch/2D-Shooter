@@ -34,6 +34,8 @@ public class UImanager : MonoBehaviour
     [SerializeField]
     private Text _waveDisplay;
 
+    private SpawnManager _spawnManager;
+
     void Start()
     {
         _scoreText.text = "Score: " + 0;
@@ -41,6 +43,8 @@ public class UImanager : MonoBehaviour
         _gameOver.gameObject.SetActive(false);
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _slider.value = 100f;
+
+        _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
     }
 
     // Update is called once per frame
@@ -112,6 +116,7 @@ public class UImanager : MonoBehaviour
     {
         _waveDisplay.text = "Wave " + waveNumber;
         _waveDisplay.gameObject.SetActive(true);
+        _spawnManager.StartSpawning(waveNumber);
         StartCoroutine(WaveDisplayRoutine());
     }
 
