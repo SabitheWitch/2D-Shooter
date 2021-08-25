@@ -10,6 +10,7 @@ public class UImanager : MonoBehaviour
 
     [SerializeField]
     private Text _ammoText;
+    private int _maxAmmo = 15;
 
     [SerializeField]
     private Image _lifeDisplay;
@@ -29,11 +30,14 @@ public class UImanager : MonoBehaviour
     private GameManager _gameManager;
 
     private bool _hasAmmo;
+   
+    [SerializeField]
+    private Text _waveDisplay;
 
     void Start()
     {
         _scoreText.text = "Score: " + 0;
-        _ammoText.text = "Ammo: " + 15;
+        _ammoText.text = "Ammo: " + 15 + "/" + _maxAmmo;
         _gameOver.gameObject.SetActive(false);
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _slider.value = 100f;
@@ -50,7 +54,7 @@ public class UImanager : MonoBehaviour
         if(ammoCount > 0)
         {
             _hasAmmo = true;
-            _ammoText.text = "Ammo: " + ammoCount.ToString();
+            _ammoText.text = "Ammo: " + ammoCount + "/" + _maxAmmo;
         } else if (ammoCount == 0)
         {
             _hasAmmo = false;
@@ -62,7 +66,7 @@ public class UImanager : MonoBehaviour
     {
         while (_hasAmmo == false)
         {
-            _ammoText.text = "Ammo: " + 0;
+            _ammoText.text = "Ammo: " + 0 + "/" + _maxAmmo;
             yield return new WaitForSeconds(.5f);
             _ammoText.text = "Ammo: ";
             yield return new WaitForSeconds(.5f);
@@ -102,5 +106,22 @@ public class UImanager : MonoBehaviour
             _gameOver.text = "";
             yield return new WaitForSeconds(0.5f);
         }
+    }
+
+    public void DisplayWaveNumber(int waveNumber)
+    {
+        _waveDisplay.text = "Wave " + waveNumber;
+        _waveDisplay.gameObject.SetActive(true);
+        StartCoroutine(WaveDisplayRoutine());
+    }
+
+    IEnumerator WaveDisplayRoutine()
+    {
+        while (_waveDisplay == true)
+        {
+            yield return new WaitForSeconds(2.5f);
+            _waveDisplay.gameObject.SetActive(false);
+        }
+
     }
 }

@@ -67,10 +67,10 @@ public class Enemy : MonoBehaviour
         
         switch (_movementType)
         {
-            case 0:
+            case 0:// Wave left to right
                 transform.Translate(new Vector3(Mathf.Cos(Time.time * 3),-1,0) * _speed * Time.deltaTime);
                 break;
-            case 1:
+            case 1:// Circle pattern
                 transform.Translate(new Vector3(Mathf.Cos(Time.time), Mathf.Sin(Time.time), 0) * _speed * Time.deltaTime);
                 break;
             default:

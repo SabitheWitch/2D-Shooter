@@ -10,9 +10,11 @@ public class Asteroid : MonoBehaviour
     private GameObject _explosion;
 
     private SpawnManager _spawnManager;
+    private UImanager _uiManager;
     void Start()
     {
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
+        _uiManager = GameObject.Find("Canvas").GetComponent<UImanager>();
     }
 
     // Update is called once per frame
@@ -32,6 +34,8 @@ public class Asteroid : MonoBehaviour
         {
             Instantiate(_explosion, transform.position, Quaternion.identity);
             Destroy(collision.gameObject);
+            int waveNumber = 1;
+            _uiManager.DisplayWaveNumber(waveNumber);
             _spawnManager.StartSpawning();
             Destroy(this.gameObject);
             
