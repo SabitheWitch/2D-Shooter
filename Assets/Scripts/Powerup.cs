@@ -56,11 +56,13 @@ public class Powerup : MonoBehaviour
                     case 5:
                         player.MultiShotActive();
                         break;
+                    case 6:
+                        player.NegSpeedActive();
+                        break;
                     default:
                         break;
                 }
-            }
-            
+            }            
             Destroy(this.gameObject);
         }
     }

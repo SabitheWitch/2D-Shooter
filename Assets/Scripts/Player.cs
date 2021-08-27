@@ -33,6 +33,7 @@ public class Player : MonoBehaviour
     bool _isMultiShotActive = false;
     bool _isSpeedBoostActive = false;
     bool _isShieldActive = false;
+    bool _isNegSpeedActive = false;
     
     
     private int _shieldLife;
@@ -303,7 +304,6 @@ public class Player : MonoBehaviour
         _speed += 10;
         StartCoroutine(SpeedBoostPowerDownRoutine());
     }
-
     IEnumerator SpeedBoostPowerDownRoutine()
     {
         while (_isSpeedBoostActive == true)
@@ -314,6 +314,22 @@ public class Player : MonoBehaviour
         }
     }
 
+    public void NegSpeedActive()
+    {
+        _isNegSpeedActive = true;
+        _speed -= 5;
+        StartCoroutine(NegSpeedPowerDownRoutine());
+    }
+
+    IEnumerator NegSpeedPowerDownRoutine()
+    {
+        while (_isNegSpeedActive == true)
+        {
+            yield return new WaitForSeconds(5f);
+            _speed += 5;
+            _isNegSpeedActive = false;
+        }
+    }
     public void ShieldActive()
     {
         if (_shieldLife < 3)
@@ -334,10 +350,7 @@ public class Player : MonoBehaviour
         {
             _shieldColor.color = Color.cyan;
         }
-    }
-
-   
-
+    }   
     public void AddAmmo()
     {
         if(_ammoCount <= 15)
@@ -348,7 +361,6 @@ public class Player : MonoBehaviour
             _spawnManager.HasAmmo();
         }
     }
-
     public void AddLife()
     {
         _life++;
@@ -364,4 +376,6 @@ public class Player : MonoBehaviour
         _score += 10;
         _uiManager.UpdateScore(_score);
     }
+
+
 }

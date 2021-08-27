@@ -33,6 +33,7 @@ public class SpawnManager : MonoBehaviour
     public void StartSpawning(int waveNumber)
     {
         _stopSpawning = false;
+        _enemiesDead = 0;
         _waveNumber = waveNumber;
         _enemiesLeft = _waveNumber + 10;
         _maxEnemies = _waveNumber + 10;
@@ -49,7 +50,7 @@ public class SpawnManager : MonoBehaviour
     {
         yield return new WaitForSeconds(3.5f);
         
-        while (_stopSpawning == false && _enemiesLeft > 0)
+        while (_stopSpawning == false)
         {
             Vector3 posToSpawn = new Vector3(Random.Range(-9f, 9f), 7, 0);
             
@@ -71,7 +72,10 @@ public class SpawnManager : MonoBehaviour
         if (_enemiesLeft == 0 && _enemiesDead == _maxEnemies)
         {
             _waveNumber++;
-            Debug.Log("Wave 2 should activate now!");
+            if(_waveNumber == 3)
+            {
+                Debug.Log("Wave 3!");
+            }
             _uiManager.DisplayWaveNumber(_waveNumber);
         }
     }
@@ -88,8 +92,11 @@ public class SpawnManager : MonoBehaviour
                 Instantiate(powerUps[5], posToSpawn, Quaternion.identity);
             }else
             {
-                int randomPowerup = Random.Range(0, 3);
-                Instantiate(powerUps[randomPowerup], posToSpawn, Quaternion.identity);
+                int randomPowerup = Random.Range(0, 6);
+                if (randomPowerup != 4 && randomPowerup != 5) 
+                {
+                    Instantiate(powerUps[randomPowerup], posToSpawn, Quaternion.identity);
+                }
             }
             yield return new WaitForSeconds(Random.Range(3f, 8f));
         }
