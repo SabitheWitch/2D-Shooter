@@ -375,9 +375,9 @@ public class Player : MonoBehaviour
         _uiManager.UpdateLives(_life);
     }
     
-    public void AddScore()
+    public void AddScore(int score)
     {
-        _score += 10;
+        _score += score;
         _uiManager.UpdateScore(_score);
     }
 

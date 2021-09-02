@@ -80,11 +80,10 @@ public class Enemy : MonoBehaviour
                 transform.Translate(Vector3.down * _speed * Time.deltaTime);
                 break;
         }
-        
 
         if (transform.position.y < -4)
         {
-            transform.position = new Vector3(Random.Range(-9f, 9f), 7, 0);
+            transform.position = new Vector3(Random.Range(-9f, 9f), 7f, 0);
         }
     }
 
@@ -112,7 +111,7 @@ public class Enemy : MonoBehaviour
 
                 if (_player != null)
                 {
-                    _player.AddScore();
+                    _player.AddScore(10);
                 }
 
                 _enemyDestroyed.SetTrigger("OnEnemyDeath");
