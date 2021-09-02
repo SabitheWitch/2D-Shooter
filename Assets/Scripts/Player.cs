@@ -109,8 +109,7 @@ public class Player : MonoBehaviour
             if (_isAmmoSpawning == false) 
             {                 
                 if (_ammoCount == 0)
-                {
-                    Debug.Log("Ammo is empty!");
+                {                    
                     _uiManager.UpdateAmmo(_ammoCount);
                     _spawnManager.AmmoDrop();
                     _isAmmoSpawning = true;
@@ -364,9 +363,14 @@ public class Player : MonoBehaviour
     public void AddLife()
     {
         _life++;
+        if(_life == 2)
+        {
+            _leftEngine.SetActive(false);
+        }
         if(_life >= 3)
         {
             _life = 3;
+            _rightEngine.SetActive(false);
         }
         _uiManager.UpdateLives(_life);
     }

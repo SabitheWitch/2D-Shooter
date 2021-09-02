@@ -33,6 +33,8 @@ public class UImanager : MonoBehaviour
    
     [SerializeField]
     private Text _waveDisplay;
+    private bool _isWaveDisplayActive;
+    private int _waveNumber;
 
     private SpawnManager _spawnManager;
 
@@ -41,6 +43,7 @@ public class UImanager : MonoBehaviour
         _scoreText.text = "Score: " + 0;
         _ammoText.text = "Ammo: " + 15 + "/" + _maxAmmo;
         _gameOver.gameObject.SetActive(false);
+        _waveDisplay.gameObject.SetActive(false);
         _gameManager = GameObject.Find("GameManager").GetComponent<GameManager>();
         _slider.value = 100f;
 
@@ -78,8 +81,7 @@ public class UImanager : MonoBehaviour
     }
 
     public void UpdateLives(int currentLife)
-    {
-        Debug.Log(currentLife);
+    {        
         _lifeDisplay.sprite = _liveSprites[currentLife];
 
         if(currentLife == 0)
@@ -114,19 +116,22 @@ public class UImanager : MonoBehaviour
 
     public void DisplayWaveNumber(int waveNumber)
     {
+        Debug.Log("wave: " + waveNumber);
         _waveDisplay.text = "Wave " + waveNumber;
         _waveDisplay.gameObject.SetActive(true);
+        _isWaveDisplayActive = true;
         _spawnManager.StartSpawning(waveNumber);
-        StartCoroutine(WaveDisplayRoutine());
+        StartCoroutine(WaveDisplayRoutine());        
     }
 
     IEnumerator WaveDisplayRoutine()
-    {
-        while (_waveDisplay == true)
+    {        
+        while (_isWaveDisplayActive == true)
         {
-            yield return new WaitForSeconds(2.5f);
+            Debug.Log("WaveDisplayisActive");
+            yield return new WaitForSecondsRealtime(2.5f);            
             _waveDisplay.gameObject.SetActive(false);
-        }
-
+            _isWaveDisplayActive = false;
+        }        
     }
 }

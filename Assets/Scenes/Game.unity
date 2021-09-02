@@ -1473,15 +1473,20 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 68316106028521491, guid: 80902657a1365d147ac474264207eecf, type: 3}
   - {fileID: 0}
+  rarePowerUps:
+  - {fileID: 8949457514521498250, guid: eaa9fb50882897049a1797a53bc3f81d, type: 3}
+  - {fileID: 0}
   _enemyContainer: {fileID: 1005711122}
   powerUps:
-  - {fileID: 2302175530936056234, guid: 0e1cb1a1eef55d04f83996a610f64a5a, type: 3}
+  - {fileID: 2894342250501412862, guid: 6702f49c11f2c584caa5ffc8de497a2d, type: 3}
   - {fileID: 5617410285629285805, guid: 92656bb489fb3424a9487100f3f015de, type: 3}
   - {fileID: 3157402659237877239, guid: a5b7c2baca109f1409f454482a57b632, type: 3}
   - {fileID: 3852717014669675732, guid: 80f2da97165bc8f4ab363dfc299839db, type: 3}
-  - {fileID: 2894342250501412862, guid: 6702f49c11f2c584caa5ffc8de497a2d, type: 3}
-  - {fileID: 8949457514521498250, guid: eaa9fb50882897049a1797a53bc3f81d, type: 3}
+  - {fileID: 2302175530936056234, guid: 0e1cb1a1eef55d04f83996a610f64a5a, type: 3}
   - {fileID: 5857362292426869582, guid: 99ec971f86606f849b947ec726ee4412, type: 3}
+  _enemiesDead: 0
+  _maxEnemies: 0
+  _enemiesLeft: 0
 --- !u!4 &1112251958
 Transform:
   m_ObjectHideFlags: 0
