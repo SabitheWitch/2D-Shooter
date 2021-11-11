@@ -25,9 +25,7 @@ public class Powerup : MonoBehaviour
     }
     
     private void OnTriggerEnter2D(Collider2D collision)
-    {
-        
-        
+    {                
         if (collision.tag == "Player")
         {
             Player player = collision.transform.GetComponent<Player>();

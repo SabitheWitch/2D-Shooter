@@ -36,6 +36,7 @@ public class TankEnemy : MonoBehaviour
         _spawnManager = GameObject.Find("SpawnManager").GetComponent<SpawnManager>();
 
         _target = _player.transform;
+
         _hitOne.gameObject.SetActive(false);
         _hitTwo.gameObject.SetActive(false);
 
@@ -104,7 +105,7 @@ public class TankEnemy : MonoBehaviour
                 Destroy(GetComponent<Collider2D>());
                 Vector3 enemyPosition = gameObject.transform.position;
                 _spawnManager.EnemyDrop(enemyPosition);
-                Destroy(this.gameObject);
+                Destroy(this.gameObject, 2.5f);
             }
         }
     }
