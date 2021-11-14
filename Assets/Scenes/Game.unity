@@ -1473,7 +1473,7 @@ MonoBehaviour:
   enemyPrefabs:
   - {fileID: 68316106028521491, guid: 80902657a1365d147ac474264207eecf, type: 3}
   - {fileID: 4386392098730710268, guid: ab5cb1c9f0d68274f805f07d3f89098b, type: 3}
-  - {fileID: 0}
+  - {fileID: 7033634881999527599, guid: 3cf5734b300590d46946e080ede4d09c, type: 3}
   rarePowerUps:
   - {fileID: 8949457514521498250, guid: eaa9fb50882897049a1797a53bc3f81d, type: 3}
   - {fileID: 0}

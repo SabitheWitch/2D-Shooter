@@ -71,10 +71,43 @@ public class SpawnManager : MonoBehaviour
         {
             yield return new WaitForSecondsRealtime(5f);
             Vector3 posToSpawn = new Vector3(Random.Range(-8.5f, 8.5f), 7, 0);
+            Vector3 bottomSpawn = new Vector3(Random.Range(-8.5f, 8.5f), -6, 0);
             
-            GameObject newEnemy = Instantiate(enemyPrefabs[0], posToSpawn, Quaternion.identity);
-            newEnemy.transform.parent = _enemyContainer.transform;
-                    
+            if(_waveNumber < 5)
+            {
+                GameObject newEnemy = Instantiate(enemyPrefabs[0], posToSpawn, Quaternion.identity);
+                newEnemy.transform.parent = _enemyContainer.transform;
+            } else if( _waveNumber  >= 5 && _waveNumber < 10)
+            {
+                int randomEnemy = Random.Range(0, 6);
+                if(randomEnemy == 5)
+                {
+                    GameObject newEnemy = Instantiate(enemyPrefabs[1], posToSpawn, Quaternion.identity);
+                    newEnemy.transform.parent = _enemyContainer.transform;
+                }
+                else
+                {
+                    GameObject newEnemy = Instantiate(enemyPrefabs[0], posToSpawn, Quaternion.identity);
+                    newEnemy.transform.parent = _enemyContainer.transform;
+                }                               
+            } else if(_waveNumber >= 10)
+            {
+                int randomEnemy = Random.Range(0, 6);
+                if(randomEnemy > 1 && randomEnemy < 5)
+                {
+                    GameObject newEnemy = Instantiate(enemyPrefabs[1], posToSpawn, Quaternion.identity);
+                    newEnemy.transform.parent = _enemyContainer.transform;
+                }else if(randomEnemy == 5)
+                {
+                    GameObject newEnemy = Instantiate(enemyPrefabs[2], bottomSpawn, Quaternion.identity);
+                    newEnemy.transform.parent = _enemyContainer.transform;
+                }
+                else
+                {
+                    GameObject newEnemy = Instantiate(enemyPrefabs[0], posToSpawn, Quaternion.identity);
+                    newEnemy.transform.parent = _enemyContainer.transform;
+                }
+            }                                
             if(_enemiesLeft > 0)
             {
                 _enemiesLeft--;
